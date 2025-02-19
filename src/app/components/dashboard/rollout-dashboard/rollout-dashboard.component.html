@@ -1,4 +1,4 @@
-<h1>Rollout DashBoard</h1>
+<!-- <h1>Rollout DashBoard</h1>
 <div class="container">
   <h2>get All Excel Sheet Names</h2>
   <input type="file" (change)="onFileSelected($event)" accept=".xls,.xlsx" class="file-input" />
@@ -8,15 +8,15 @@
     <form (ngSubmit)="submitChanges()">
       <ul>
         <li *ngFor="let sheet of sheetList; let i = index">
-          {{ sheetList[i] }} <!-- Correct way to reference using index -->
-        </li>
-      </ul>
+          {{ sheetList[i] }} Correct way to reference using index -->
+        <!-- </li>
+      </ul> -->
       <!-- <button type="submit">Submit</button> -->
-    </form>
-  </div>
+    <!-- </form>
+  </div> -->
   
   <!-- If no sheets are available -->
-  <div *ngIf="!sheetList || sheetList.length === 0">
+  <!-- <div *ngIf="!sheetList || sheetList.length === 0">
     <p>No sheets available</p>
   </div>
 </div>
@@ -38,15 +38,51 @@
 </div>
 
 <div class="container">
-  <h2>get FAQ Json from Excel convertor</h2>
+  <h2>JSON for FAQ</h2>
   <input type="file" (change)="onFileSelected($event)" accept=".xls,.xlsx" class="file-input" />
-  <button (click)="getFAQJson()" [disabled]="!selectedFile" class="upload-btn">view FAQ Json</button>
-  <p *ngIf="downloadStatus">{{ downloadStatus }}</p>
+  <button (click)="getFAQJson()" [disabled]="!selectedFile" class="upload-btn">Generate JSON - FAQ</button>
+  <p *ngIf="downloadStatus">{{ downloadStatus }}</p> -->
 <!-- <div *ngIf="faqJson && faqJson.length > 0">
 <form (ngSubmit)="submitChanges()">
   <pre *ngIf="faqJson != null" class="pretty-json">{{ faqJson | json }}</pre>
 </form>    
 </div> -->
+<!-- </div> -->
+<div class="container1">
+  <h2>Rollout Configuration Automation</h2>
+  <h2>Select One Column at a Time</h2>
+  <input type="file" (change)="onFileSelected($event)" accept=".xls,.xlsx" class="file-input" />
+  <!-- <button (click)="getFAQJson()" [disabled]="!selectedFile" class="upload-btn">Generate JSON - FAQ</button> -->
+  <p *ngIf="downloadStatus">{{ downloadStatus }}</p>
+  
+  <div class="checkbox-group">
+    <label>
+      <input type="checkbox" name="option" value="FAQ" (change)="selectOption('FAQ', $event)" [checked]="selectedOption === 'FAQ'" />
+      FAQ
+    </label>
+
+    <label>
+      <input type="checkbox" name="option" value="Privacy Policy" (change)="selectOption('Privacy Policy', $event)" [checked]="selectedOption === 'Privacy Policy'" />
+      Privacy Policy
+    </label>
+
+    <label>
+      <input type="checkbox" name="option" value="ICR" (change)="selectOption('ICR', $event)" [checked]="selectedOption === 'ICR'" />
+      ICR
+    </label>
+
+    <label>
+      <input type="checkbox" name="option" value="Appointment letter" (change)="selectOption('Appointment letter', $event)" [checked]="selectedOption === 'Appointment letter'" />
+      Appointment Letter
+    </label>
+  </div>
+
+  <div class="buttons">
+    <button (click)="validateSelection()"[disabled]="!selectedFile" class="upload-btn">Validate</button>
+    <button (click)="viewSelection()"[disabled]="!selectedFile" class="upload-btn">View</button>
+    <button (click)="generate()" [disabled]="!selectedFile" class="upload-btn">Generate JSON</button>
+  </div>
 </div>
+
 
   

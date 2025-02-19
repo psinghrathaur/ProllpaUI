@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ApiConstantService } from '../services/api-constant.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthServiceService {
   private jwtToken: string | null = null;
   
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router:Router) {}
 
   // authenticateUser(payload: { username: string; password: string }): Observable<any> {
   //   // Create headers explicitly (optional since HttpClient defaults to application/json)
@@ -43,7 +44,7 @@ export class AuthServiceService {
     }
   
     const headers = new HttpHeaders({
-     // 'Authorization': `Bearer ${this.jwtToken}`,
+      'Authorization': `Bearer ${this.jwtToken}`,
       'Content-Type': 'application/json'
     });
   
@@ -55,7 +56,7 @@ export class AuthServiceService {
     }
 
     const headers = new HttpHeaders({
-      // 'Authorization': `Bearer ${this.jwtToken}`,
+       'Authorization': `Bearer ${this.jwtToken}`,
       'Content-Type': 'application/json'
     });
     return this.http.get<any>(`${environment.apiUrl + ApiConstantService.getUserRoleByUserId}/${Number(userId)}`, {
@@ -65,7 +66,7 @@ export class AuthServiceService {
   getRoleList(): Observable<any> {
     if (this.jwtToken) {
       const headers = new HttpHeaders({
-        // 'Authorization': `Bearer ${this.jwtToken}`,
+         'Authorization': `Bearer ${this.jwtToken}`,
         'Content-Type': 'application/json'
       });
   
@@ -80,7 +81,7 @@ export class AuthServiceService {
   getRoleByRoleId(roleId: string ): Observable<any> {
     if (this.jwtToken) {
       const headers = new HttpHeaders({
-        // 'Authorization': `Bearer ${this.jwtToken}`,
+         'Authorization': `Bearer ${this.jwtToken}`,
         'Content-Type': 'application/json'
       });
   
@@ -95,5 +96,30 @@ export class AuthServiceService {
   getToken(): string | null {
     return this.jwtToken;
   }
-    
+  storeToken(token: string) {
+    const expiryTime = new Date().getTime() + 30 * 60 * 1000; // 30 minutes from now
+    localStorage.setItem('jwtToken', token);
+    localStorage.setItem('tokenExpiry', expiryTime.toString());
+  }
+  
+  getJwtToken(): string | null {
+    const expiry = localStorage.getItem('tokenExpiry');
+    if (expiry && new Date().getTime() > parseInt(expiry)) {
+      this.logout(); // Token expired, force logout
+      return null;
+    }
+    return localStorage.getItem('jwtToken');
+  }
+  
+  isLoggedIn(): boolean {
+    return this.getToken() !== null;
+  }
+  
+  logout() {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('tokenExpiry');
+    localStorage.removeItem('sessionId'); // To prevent multiple tabs
+    this.router.navigate(['/login']);
+  }
+      
 }

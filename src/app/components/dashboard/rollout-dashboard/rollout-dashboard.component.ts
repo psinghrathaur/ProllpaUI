@@ -10,6 +10,8 @@ import { ApiConstantService } from '../../../services/services/api-constant.serv
 })
 export class RolloutDashboardComponent {
   selectedFile: File | null = null;
+  selectedOption: string | null = null;
+  downloadStatus: string = '';
   jsonResponse: any[] = [];
   tableHeaders: string[] = [];
   response:string='';
@@ -18,7 +20,7 @@ export class RolloutDashboardComponent {
   faqJson: any[] = [];
   sheetName:string='';
   
-  downloadStatus: string | null = null;
+  
   
 
   constructor(private http: HttpClient) {}
@@ -121,5 +123,84 @@ export class RolloutDashboardComponent {
         this.downloadStatus = 'Error downloading the file.';
       }
     );
+  }
+  // onFileSelected(event: any) {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     this.selectedFile = file;
+  //     this.downloadStatus = '';
+  //   }
+  // }
+
+  // Handle checkbox selection (Only one at a time)
+  selectOption(option: string, event: any) {
+    if (event.target.checked) {
+      this.selectedOption = option;
+    } else {
+      this.selectedOption = null;
+    }
+  }
+
+  // Validate Selection
+  validateSelection() {
+    if (!this.selectedOption) {
+      alert('Please select one option before proceeding.');
+    } else {
+      alert(`Valid selection: ${this.selectedOption}`);
+    }
+  }
+
+  // View Selected Option
+  viewSelection() {
+    if (!this.selectedOption) {
+      alert('No option selected.');
+    } else {
+      console.log('Selected Option:', this.selectedOption);
+    }
+  }
+
+  // Generate JSON from Excel for FAQ (API Call)
+  generate() {
+    if (!this.selectedFile) {
+      alert('Please select a file before generating.');
+      return;
+    }
+    
+    if (!this.selectedOption) {
+      alert('Please select an option before generating.');
+      return;
+    }
+
+    console.log(`Generating data for: ${this.selectedOption}`);
+
+    switch (this.selectedOption) {
+      case 'FAQ':
+        this.getFAQJson();
+        break;
+      case 'Privacy Policy':
+        alert('privacy policy.');
+        break;
+      case 'ICR':
+        alert('privacy policy.');
+        break;
+      case 'Appointment letter':
+        alert('privacy policy.');
+        break;
+      default:
+        alert('Invalid selection.');
+    }
+  }
+
+  // Generate JSON based on selected checkbox (API Call)
+  
+  // Helper function to trigger JSON file download
+  private downloadFile(blob: Blob, fileName: string) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    this.downloadStatus = `Downloaded: ${fileName}`;
   }
 }
