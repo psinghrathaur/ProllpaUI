@@ -14,6 +14,9 @@ export class ApiConstantService {
   public static getExcelAllSheet:string ="excel/sheets";
   public static getExcelToJsonConvert:string ="excel/convertJson";
   public static getExcelToFAQ:string ="excel/convertToFAQJSON";
+  public static getZipForUI:string ="excel/upload";
+  public static privacyPolicy:string ="excel/privacyPolicy";
+  public static uploadIndividual:string ="excel/uploadIndividual";
 
   constructor() { }
 }

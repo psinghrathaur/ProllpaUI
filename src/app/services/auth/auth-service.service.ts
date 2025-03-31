@@ -119,7 +119,9 @@ export class AuthServiceService {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('tokenExpiry');
     localStorage.removeItem('sessionId'); // To prevent multiple tabs
-    this.router.navigate(['/login']);
+    sessionStorage.removeItem('jwtToken');
+    this.router.navigate(['']); 
+    
   }
       
 }

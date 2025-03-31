@@ -19,24 +19,19 @@
   <!-- <div *ngIf="!sheetList || sheetList.length === 0">
     <p>No sheets available</p>
   </div>
-</div>
-<div class="container">
+</div>-->
+<!--<div class="container">
   <h2>Excel to Json convertor</h2>
   <input type="file" (change)="onFileSelected($event)" accept=".xls,.xlsx" class="file-input" />
-  
-  <label for="sheetName">Sheet Name (optional):</label>
-  <input type="text" id="sheetName" [(ngModel)]="sheetName" placeholder="Enter sheet name" class="file-input" />
 
-  <button (click)="getExcelToJson()" [disabled]="!selectedFile" class="upload-btn">View Json</button>
+  <button (click)="getZipForUI()" [disabled]="!selectedFile" class="upload-btn">Generate</button>
   
-  <h3>JSON Data:</h3>
+  
   <div *ngIf="jsonResponse && jsonResponse.length > 0">
-    <form (ngSubmit)="submitChanges()">
-      <pre *ngIf="jsonResponse != null" class="pretty-json">{{ jsonResponse | json }}</pre>
-    </form>    
+        
   </div>
-</div>
-
+</div> -->
+<!--
 <div class="container">
   <h2>JSON for FAQ</h2>
   <input type="file" (change)="onFileSelected($event)" accept=".xls,.xlsx" class="file-input" />
@@ -48,14 +43,115 @@
 </form>    
 </div> -->
 <!-- </div> -->
-<div class="container1">
+<div class="container">
+  <h2>Excel to JSON Converter</h2>
+  <input type="file" (change)="onFileSelected($event)" accept=".xls,.xlsx" class="file-input" />
+  <p *ngIf="downloadStatus">{{ downloadStatus }}</p>
+
+  <div class="radio-container">
+    <label><strong>Do you want 100%?</strong></label>
+    <label>
+      <input type="radio" name="percent" value="yes" (change)="onSelectionChange('yes')" /> Yes
+    </label>
+    <label>
+      <input type="radio" name="percent" value="no" (change)="onSelectionChange('no')" /> No
+    </label>
+  </div>
+  
+  <div *ngIf="selectedOption === 'no'" class="sub-options">
+    <label class="selection-label"><strong>Kindly select one or more items to be converted to JSON</strong></label>
+    <div class="checkbox-container">
+      <label>
+        <input type="checkbox" name="option" value="FAQ" (change)="onCheckboxChange1($event,'FAQ')" /> FAQ (.json)
+      </label>
+      <label>
+        <input type="checkbox" name="option" value="Website Menu" (change)="onCheckboxChange1($event,'Website Menu')" /> Website Menu (.json)
+      </label>
+      <label>
+        <input type="checkbox" name="option" value="ICR" (change)="onCheckboxChange1($event,'ICR')" /> ICR (.txt)
+      </label>
+      
+      <label>
+        <input type="checkbox" name="option" value="Visa Center Page" (change)="onCheckboxChange1($event,'Visa Center Page Output')" /> Visa Center Page (.json)
+      </label>
+      <label>
+        <input type="checkbox" name="option" value="Appointment Letter Page" (change)="onCheckboxChange1($event,'Appointment Letter')" /> Appointment Letter Page (.json)
+      </label>
+      <label>
+        <input type="checkbox" name="option" value="Privacy Policy Page" (change)="onCheckboxChange1($event,'Privacy Policy')" /> Privacy Policy Page (.json)
+      </label>
+      <label>
+        <input type="checkbox" name="option" value="Vas Services" (change)="onCheckboxChange1($event,'Vas Services')" /> Vas Services (.json)
+      </label>
+      <label>
+        <input type="checkbox" name="option" value="Visa Center Page local language" (change)="onCheckboxChange1($event,'Visa Center Page local language')" /> Local Language Visa Center Page (.json)
+      </label>
+      <label>
+        <input type="checkbox" name="option" value="Website Document Checklist" (change)="onCheckboxChange1($event,'Website Document Checklist')" /> Website Document Checklist Page (.json)
+      </label>
+      <label>
+        <input type="checkbox" name="option" value="Information and Guidelines" (change)="onCheckboxChange1($event,'Information and Guidelines')" /> Information and Guidelines (.json)
+      </label>
+      <label>
+        <input type="checkbox" name="option" value="Website Content" (change)="onCheckboxChange1($event,'Website Content')" /> Website Content (.json)
+      </label>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <!-- <button (click)="validateSelection()" [disabled]="!selectedFile" class="upload-btn">Validate</button>
+    <button (click)="viewSelection()" [disabled]="!selectedFile" class="upload-btn">View</button> -->
+    <button (click)="getZipForUI()" [disabled]="selectedOption === 'no' && selectedCheckboxes.length === 0" class="upload-btn">
+      Generate JSON
+    </button>
+  </div>
+</div>
+
+
+
+
+<!--<div class="container1">
   <h2>Rollout Configuration Automation</h2>
   <h2>Select One Column at a Time</h2>
   <input type="file" (change)="onFileSelected($event)" accept=".xls,.xlsx" class="file-input" />
-  <!-- <button (click)="getFAQJson()" [disabled]="!selectedFile" class="upload-btn">Generate JSON - FAQ</button> -->
+   <button (click)="getFAQJson()" [disabled]="!selectedFile" class="upload-btn">Generate JSON - FAQ</button> 
   <p *ngIf="downloadStatus">{{ downloadStatus }}</p>
   
   <div class="checkbox-group">
+    <label>
+      <input
+        type="checkbox"
+        name="option"
+        value="JSON"
+        (change)="selectOptionSheet($event)"
+        [checked]="selectedOption === 'JSON'"
+      />
+      JSON
+    </label>
+  -->
+    <!-- Sheet Dropdown (Only Visible if JSON is Selected) -->
+    <!--<div *ngIf="selectedOption === 'JSON'">
+      <label for="sheetSelect">Select Sheet:</label>
+      <select id="sheetSelect" [(ngModel)]="selectedSheet" (change)="onSheetSelect()">
+        <option *ngFor="let sheet of sheetList" [value]="sheet">
+          {{ sheet }}
+        </option>
+      </select>
+    -->
+    
+      <!-- Optional Column Selection -->
+      <!--<label for="columnA">Label:</label>
+      <input id="columnA" type="text" [(ngModel)]="columnA" placeholder="Default: B" />
+    
+      <label for="columnB">Value:</label>
+      <input id="columnB" type="text" [(ngModel)]="columnB" placeholder="Default: C" />
+    </div>-->
+    
+    <!-- Display API Response -->
+    <!--<div *ngIf="jsonData">
+      <h3>JSON Output:</h3>
+      <pre>{{ jsonData | json }}</pre>
+    </div>
     <label>
       <input type="checkbox" name="option" value="FAQ" (change)="selectOption('FAQ', $event)" [checked]="selectedOption === 'FAQ'" />
       FAQ
@@ -82,7 +178,7 @@
     <button (click)="viewSelection()"[disabled]="!selectedFile" class="upload-btn">View</button>
     <button (click)="generate()" [disabled]="!selectedFile" class="upload-btn">Generate JSON</button>
   </div>
-</div>
+</div>-->
 
 
   

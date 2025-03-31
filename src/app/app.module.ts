@@ -16,6 +16,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { AuthInterceptor } from './interceptors/auth-interceptor.service';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatListModule,
     MatTableModule,
     MatPaginatorModule,],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtService, multi: true }, provideAnimationsAsync()
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },{ provide: HTTP_INTERCEPTORS, useClass: JwtService, multi: true }, provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })
