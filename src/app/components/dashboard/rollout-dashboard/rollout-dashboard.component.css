@@ -112,3 +112,10 @@ input[type="checkbox"] {
   margin-right: 10px;
   transform: scale(1.2);
 }
+
+.toggle-button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}

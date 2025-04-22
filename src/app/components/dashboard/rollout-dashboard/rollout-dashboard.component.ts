@@ -59,6 +59,7 @@ export class RolloutDashboardComponent {
     this.onSheetSelect();
     if (!this.selectedFile) {
       console.error('No file selected');
+      alert("No file selected");
       return;
     }
 
@@ -84,6 +85,7 @@ export class RolloutDashboardComponent {
   getAllSheetsName() {
     if (!this.selectedFile) {
       console.error('No file selected');
+      alert("No file selected");
       return;
     }
 
@@ -111,6 +113,7 @@ export class RolloutDashboardComponent {
   getFAQJson() {
     if (!this.selectedFile) {
       console.error('No file selected');
+      alert("No file selected");
       return;
     }
 
@@ -218,6 +221,7 @@ export class RolloutDashboardComponent {
     this.onSheetSelect();
     if (!this.selectedFile) {
       console.error('No file selected');
+      alert("No file selected");
       return;
     }
     
@@ -322,4 +326,18 @@ export class RolloutDashboardComponent {
     }
   }
   
+
+  showForm = false;
+  showFormUI=false;
+
+  toggleForm() {
+    this.showForm = !this.showForm;
+  }
+  toggleFormUI() {
+    this.showFormUI = !this.showFormUI;
+  }
+
+  submitForm(form: any) {
+    console.log('Form Data:', form.value);
+  }
 }

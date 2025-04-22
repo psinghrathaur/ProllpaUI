@@ -43,6 +43,11 @@
 </form>    
 </div> -->
 <!-- </div> -->
+
+<button class="toggle-button"  (click)="toggleFormUI()">
+{{ showFormUI ? 'Hide Script Form' : 'Show Script Form' }}
+</button>
+<div *ngIf="showFormUI">
 <div class="container">
   <h2>Excel to JSON Converter</h2>
   <input type="file" (change)="onFileSelected($event)" accept=".xls,.xlsx" class="file-input" />
@@ -106,7 +111,7 @@
     </button>
   </div>
 </div>
-
+</div>
 
 
 
@@ -179,6 +184,27 @@
     <button (click)="generate()" [disabled]="!selectedFile" class="upload-btn">Generate JSON</button>
   </div>
 </div>-->
+
+<button class="toggle-button"  (click)="toggleForm()">
+  {{ showForm ? 'Hide Script Form' : 'Show Script Form' }}
+</button>
+
+<div *ngIf="showForm">
+  <form #userForm="ngForm" (ngSubmit)="submitForm(userForm)">
+    <label>
+      Name:
+      <input type="text" name="name" ngModel required />
+    </label><br>
+
+    <label>
+      Email:
+      <input type="email" name="email" ngModel required />
+    </label><br>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
 
 
   
